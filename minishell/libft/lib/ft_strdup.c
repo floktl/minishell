@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:18:52 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/03/27 14:19:59 by flo              ###   ########.fr       */
+/*   Updated: 2024/04/21 14:01:11 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@ char	*ft_strdup(const char *s1)
 	return (s2);
 }
 
-/*int main()
+/*
+int main()
 {
 	char source[] = "lorem ipsum dolor sit amet";
 	char* target = ft_strdup(source);
 	printf("%s", target);
 	free(target);
 	return 0;
-}*/
+}
+*/

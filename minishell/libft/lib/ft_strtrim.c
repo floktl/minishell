@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 13:32:18 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/03/27 14:20:36 by flo              ###   ########.fr       */
+/*   Updated: 2024/04/22 14:43:00 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 	if (!s1 || !set)
 		return (NULL);
+	str_trim = NULL;
 	start = 0;
 	while (s1[start] && ft_strchr(set, s1[start]))
 		start++;
 	end = ft_strlen(s1) - 1;
 	while (end > start && ft_strchr(set, s1[end]))
 		end--;
-	str_trim = malloc(end - start + 2);
+	str_trim = (char *)malloc(sizeof(char) * (end - start + 2));
 	if (!str_trim)
 		return (NULL);
 	i = 0;
@@ -35,11 +36,13 @@ char	*ft_strtrim(char const *s1, char const *set)
 	{
 		str_trim[i] = s1[start];
 		i++;
+		str_trim[i] = '\0';
 		start++;
 	}
-	str_trim[i] = '\0';
 	return (str_trim);
 }
+
+
 
 /* int main()
 {

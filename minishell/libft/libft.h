@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 16:57:56 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/03/27 10:41:11 by flo              ###   ########.fr       */
+/*   Updated: 2024/04/21 12:19:26 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	free_two_dimensional_array(char **param);
 void	*ft_realloc(void *ptr, size_t size);
 int		append_int(int a, int b);
 char	bits_to_char(const int bits[8]);
+int		is_substr_first_word(const char *str, const char *sub_str);
 
 // printf_functions:
 
