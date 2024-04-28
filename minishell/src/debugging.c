@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 14:36:56 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/04/26 19:36:22 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/04/28 11:59:26 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 //	function to print the tree struct, only for debugging
 void	print_parse_tree(const t_tree *tree)
 {
-	char	**flag;
-	char	**arg;
-
 	printf("\n");
 	if (tree == NULL)
 	{
@@ -35,28 +32,17 @@ void	print_parse_tree(const t_tree *tree)
 		printf("type: %d\n", tree->type);
 		printf("command: %d\n", tree->command);
 	}
-	printf("flags: ");
 	if (tree->flags != NULL)
 	{
-		flag = tree->flags;
-		while (*flag != NULL)
-		{
-			printf("%s ", *flag);
-			flag++;
-		}
+		printf("flags: ");
+		print_2d_array(tree->flags);
 	}
-	printf("\n");
 	printf("arguments: ");
 	if (tree->arguments != NULL)
 	{
-		arg = tree->arguments;
-		while (*arg != NULL)
-		{
-			printf("%s ", *arg);
-			arg++;
-		}
+		print_2d_array(tree->arguments);
 	}
-	printf("\nargv: %d", tree->args_num);
+	printf("\nargc: %d", tree->args_num);
 	printf("\ncmd_brch: ");
 	if (tree->cmd_brch)
 	{
@@ -71,13 +57,23 @@ void	print_parse_tree(const t_tree *tree)
 	}
 }
 
-//	print two dimensional array
-void printCharArray2D(char **array)
+//	print two-dimensional array
+void	print_2d_array(char **array)
 {
-    for (int i = 0; array[i] != NULL; i++) {
-        for (int j = 0; array[i][j] != '\0'; j++) {
-            printf("%c ", array[i][j]);
-        }
-        printf("\n");
-    }
+	int	i;
+	int	j;
+
+	i = 0;
+	while (array[i] != NULL)
+	{
+		j = 0;
+		printf("%d: [", i);
+		while (array[i][j] != '\0')
+		{
+			printf("%c", array[i][j]);
+			j++;
+		}
+		printf("] ");
+		i++;
+	}
 }

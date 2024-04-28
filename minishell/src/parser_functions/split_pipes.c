@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:09:19 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/04/26 19:26:27 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/04/28 12:00:36 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ char	**split_pipes(char const *s, char c, int *pipe_num)
 
 	if (!s)
 		return (NULL);
+	*pipe_num = 1;
 	count_pipes(s, c, pipe_num);
 	split = ft_calloc(*pipe_num + 1, sizeof(char *));
 	if (!split)
@@ -112,29 +113,3 @@ char	**split_pipes(char const *s, char c, int *pipe_num)
 	}
 	return (split);
 }
-
-//int main()
-//{
-//	char const *input = "echo \"te\'\'|||\'s\'t |\" ts\'t | echo";
-
-//	char **result = split_pipes(input, '|');
-
-//	if (result)
-//	{
-//		printf("Split result:\n");
-//		for (int i = 0; result[i] != NULL; i++)
-//		{
-//			printf("[%d]: :%s:\n", i, result[i]);
-//		}
-//		for (int i = 0; result[i] != NULL; i++)
-//		{
-//			free(result[i]);
-//		}
-//		free(result);
-//	}
-//	else
-//	{
-//		printf("Error: Memory allocation failed.\n");
-//	}
-//	return (0);
-//}

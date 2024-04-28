@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 11:03:04 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/04/26 20:01:33 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/04/28 09:37:06 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(void)
 			continue ;
 		command = NULL;
 		print_parse_tree(parse_tree);	// function to print tree struct values
-		//execute_command(parse_tree->cmd_brch);	//	execution function
+		execute_command(parse_tree);	//	execution function
 		free_tree(parse_tree);
 	}
 	return (0);

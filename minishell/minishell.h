@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:41:13 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/04/26 19:49:45 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/04/28 11:33:27 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	ft_free(char **split, int words);
 //----------------------------- error functions --------------------------------
 
 //	error.c
-
+int		pipes_error(char *errorstr, t_tree *tree, char **array);
 //--------------------------- execution functions ------------------------------
 
 //	execute.c
@@ -116,7 +116,7 @@ void	execute_command(t_tree *tree);
 
 //	helper_1.c
 void	remove_char(char *str, char char_to_remove, int start, int *end);
-void	ft_treeadd_back(t_tree **lst, t_tree *new);
+void	ft_treeadd_back(t_tree **lst, t_tree *new, t_tree **parent);
 
 //---------------------------- parsing functions -------------------------------
 
@@ -124,15 +124,15 @@ void	ft_treeadd_back(t_tree **lst, t_tree *new);
 int		count_flags(const char *str, int start, char c);
 int		check_for_flag(t_tree *tree, char *cmd_str, int start);
 //	parsing.c
-void	initiliaze_command_tree(t_tree *tree);
+void	initiliaze_command_tree(t_tree *tree, int i);
 t_tree	*parse_command(char *command);
 //	process_arg_str.c
 char	*ft_fgets(void);
 int		adapt_and_count_arguments(t_tree *tree, char *command_str);
 int		split_command(t_tree *tree, char *command_str);
-int		seperate_pipes(t_tree **tree, char *command_str);
+int		build_command_tree(t_tree **tree, char *command_str);
 //	quote_check.c
-int		check_for_quotes(t_tree *tree, char *command_str);
+int		check_for_quotes(char *command_str);
 int		check_for_open_quotes(char letter, int *s_quote, int *d_quote);
 int		det_and_rem_quotes_first_word(char *command_str);
 //	split_pipes.c
@@ -149,7 +149,7 @@ void	handle_signal(int signo);
 //---------------------------- debugging functions ----------------------------
 
 void	print_parse_tree(const t_tree *tree);
-void	printCharArray2D(char **array);
+void	print_2d_array(char **array);
 
 //------------------------------------- end -----------------------------------
 #endif

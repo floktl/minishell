@@ -6,20 +6,19 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 20:40:02 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/04/26 19:33:16 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/04/28 11:33:18 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 //	check if there are undisclosed quotes in the command string
-int	check_for_quotes(t_tree *tree, char *command_str)
+int	check_for_quotes(char *command_str)
 {
 	int	i;
 	int	single_quote_counter;
 	int	double_quote_counter;
 
-	(void)tree;
 	i = 0;
 	single_quote_counter = 0;
 	double_quote_counter = 0;
@@ -38,10 +37,7 @@ int	check_for_quotes(t_tree *tree, char *command_str)
 		i++;
 	}
 	if (single_quote_counter % 2 != 0 || double_quote_counter % 2 != 0)
-	{
-		printf("undisclosed quote in command\n");
-		return (EXIT_FAILURE);
-	}
+		return (printf("undisclosed quote in command\n"), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
