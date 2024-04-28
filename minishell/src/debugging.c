@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debugging.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 14:36:56 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/04/28 16:47:34 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/04/28 18:40:52 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	print_parse_tree(const t_tree *tree)
 	printf("\nargc: %d\ncmd_brch: ", tree->args_num);
 	if (tree->cmd_brch)
 		printf(":%s:", tree->cmd_brch);
-	printf("\noutput\n: %d\n", tree->output);
+	printf("\noutput: %d\n", tree->output);
 	if (tree->child_pipe != NULL)
 		print_parse_tree(tree->child_pipe);
 }

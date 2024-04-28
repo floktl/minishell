@@ -3,16 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   process_arg_str.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:47:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/04/28 16:55:09 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/04/28 21:37:39 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 //	function to read the user input from the terminal command
+#include <stdio.h>
+#include <stdlib.h>
+#include <termios.h>
+#include <unistd.h>
+
 char	*ft_fgets(void)
 {
 	struct termios	old_termios;
@@ -20,6 +25,7 @@ char	*ft_fgets(void)
 	char			*line;
 	size_t			len;
 	int				c;
+	char			*temp;
 
 	line = NULL;
 	len = 0;
@@ -28,31 +34,53 @@ char	*ft_fgets(void)
 	new_termios.c_lflag &= ~(ICANON | ECHO);
 	tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
 	c = getchar();
-	while ((c = getchar()) != '\n' && c != EOF)
+	while (c != '\n' && c != EOF)
 	{
-        if (c == 127) { // Check if delete key is pressed
-            if (len > 0) {
-                len--; // Decrement length
-                putchar('\b'); // Move cursor back
-                putchar(' '); // Clear character
-                putchar('\b'); // Move cursor back again
-            }
-        } else {
-            char *temp = realloc(line, (len + 2) * sizeof(char));
-            if (temp == NULL) {
-                free(line);
-                tcsetattr(STDIN_FILENO, TCSANOW, &old_termios);
-                perror("realloc");
-                return NULL;
-            }
-            line = temp;
-            line[len++] = (char)c;
-            line[len] = '\0';
-        }
-    }
+		if (c == 127)
+		{
+			if (len > 0)
+			{
+				write(1, "\b \b", 3);
+				len--;
+			}
+		}
+		else if (c == '\b')
+		{
+			write(1, "\b", 1);
+		}
+		else
+		{
+			temp = realloc(line, (len + 2) * sizeof(char));
+			if (temp == NULL)
+			{
+				free(line);
+				tcsetattr(STDIN_FILENO, TCSANOW, &old_termios);
+				perror("realloc");
+				return (NULL);
+			}
+			line = temp;
+			line[len++] = (char)c;
+			line[len] = '\0';
+			write(1, &c, 1);
+		}
+		c = getchar();
+	}
+	printf("\n");
 	tcsetattr(STDIN_FILENO, TCSANOW, &old_termios);
 	return (line);
 }
+
+// int main() {
+//     printf("Enter text: ");
+//     char *input = ft_fgets();
+//     if (input != NULL) {
+//         printf("You entered: %s\n", input);
+//         free(input);
+//     }
+//     return 0;
+// }
+
+
 
 //	count_arguments and remove quotes
 int	adapt_and_count_arguments(t_tree *tree, char *command_str)

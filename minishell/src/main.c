@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 11:03:04 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/04/28 17:16:34 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/04/28 21:23:08 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,18 @@ int	main(void)
 	signal(SIGINT, handle_signal);
 	while (1)
 	{
-		command = readline("\033[32mminishell>\033[0m");
+		printf("\033[32mminishell>\033[0m");
+		fflush(stdout);
+		command = ft_fgets();
 		if (command == NULL)
 		{
 			continue ;
 		}
-		fflush(stdout);
 		if (command[0] && command[0] == '\n')
+		{
+			free(command);
 			continue ;
+		}
 		if (strcmp(command, "exit") == 0)
 		{
 			free(command);
@@ -45,7 +49,7 @@ int	main(void)
 			continue ;
 		command = NULL;
 		print_parse_tree(parse_tree);
-		execute_command(parse_tree);
+		//execute_command(parse_tree);
 		free_tree(parse_tree);
 	}
 	return (0);
