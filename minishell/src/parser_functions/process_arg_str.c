@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:47:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/04/28 11:30:03 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/04/28 16:55:09 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,31 @@ char	*ft_fgets(void)
 	len = 0;
 	tcgetattr(STDIN_FILENO, &old_termios);
 	new_termios = old_termios;
-	new_termios.c_lflag &= ~(ICANON);
+	new_termios.c_lflag &= ~(ICANON | ECHO);
 	tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
 	c = getchar();
-	while (c != '\n' && c != EOF)
+	while ((c = getchar()) != '\n' && c != EOF)
 	{
-		line = realloc(line, sizeof(char) * (len + 2));
-		if (line == NULL)
-		{
-			free(line);
-			tcsetattr(STDIN_FILENO, TCSANOW, &old_termios);
-			return (perror("realloc"), NULL);
-		}
-		line[len++] = (char)c;
-		line[len] = '\0';
-		c = getchar();
-	}
+        if (c == 127) { // Check if delete key is pressed
+            if (len > 0) {
+                len--; // Decrement length
+                putchar('\b'); // Move cursor back
+                putchar(' '); // Clear character
+                putchar('\b'); // Move cursor back again
+            }
+        } else {
+            char *temp = realloc(line, (len + 2) * sizeof(char));
+            if (temp == NULL) {
+                free(line);
+                tcsetattr(STDIN_FILENO, TCSANOW, &old_termios);
+                perror("realloc");
+                return NULL;
+            }
+            line = temp;
+            line[len++] = (char)c;
+            line[len] = '\0';
+        }
+    }
 	tcsetattr(STDIN_FILENO, TCSANOW, &old_termios);
 	return (line);
 }

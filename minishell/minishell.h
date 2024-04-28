@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:41:13 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/04/28 11:33:27 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/04/28 17:00:49 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 //	type list
 # define EXEC 1
 # define REDIR 2
-# define BACKCMD 3
 //	command list
 # define REDIR_IN 1
 # define REDIR_OUT 2
@@ -45,6 +44,8 @@
 /* -------------------------------- LIBRARIES ------------------------------- */
 
 //	public libraries
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -86,7 +87,7 @@ typedef struct s_parse_tree
 	struct s_parse_tree	*child_pipe;	// NULL if there is no children
 	int					output;			// output we dont need right?
 	int					pipes_num;		// number of pipes, starting with one
-	t_cmd				*parsed_command;// see above, maybe unnecessary
+	t_cmd				*parsed_command; // see above, maybe unnecessary
 }	t_tree;
 
 /*
@@ -121,8 +122,8 @@ void	ft_treeadd_back(t_tree **lst, t_tree *new, t_tree **parent);
 //---------------------------- parsing functions -------------------------------
 
 //	flag_checker.c
-int		count_flags(const char *str, int start, char c);
-int		check_for_flag(t_tree *tree, char *cmd_str, int start);
+//int		count_flags(const char *str, int start, char c);
+//int		check_for_flag(t_tree *tree, char *cmd_str, int start);
 //	parsing.c
 void	initiliaze_command_tree(t_tree *tree, int i);
 t_tree	*parse_command(char *command);
@@ -137,7 +138,7 @@ int		check_for_open_quotes(char letter, int *s_quote, int *d_quote);
 int		det_and_rem_quotes_first_word(char *command_str);
 //	split_pipes.c
 void	count_pipes(char const *s, char pipe, int *pipe_num);
-int		quote_check(char c, int *pipe_len, char pipe, int *i);
+int		quote_check(const char *s, int *pipe_len, char pipe, int *i);
 int		assign_pipes(char const *s, char pipe, char **split, int pipes);
 char	**split_pipes(char const *s, char c, int *pipe_num);
 
