@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 11:03:04 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/04/28 21:23:08 by flo              ###   ########.fr       */
+/*   Updated: 2024/04/29 14:07:12 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	main(void)
 		{
 			continue ;
 		}
+		//printf("%s", command);
 		if (command[0] && command[0] == '\n')
 		{
 			free(command);
@@ -49,7 +50,7 @@ int	main(void)
 			continue ;
 		command = NULL;
 		print_parse_tree(parse_tree);
-		//execute_command(parse_tree);
+		execute_command(parse_tree);
 		free_tree(parse_tree);
 	}
 	return (0);

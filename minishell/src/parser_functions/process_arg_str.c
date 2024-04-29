@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_arg_str.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:47:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/04/28 21:37:39 by flo              ###   ########.fr       */
+/*   Updated: 2024/04/29 13:53:06 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,29 @@
 #include <termios.h>
 #include <unistd.h>
 
-char	*ft_fgets(void)
+#define ESCAPE_SEQUENCE "\x1b"
+
+char *ft_fgets(void)
 {
 	struct termios	old_termios;
 	struct termios	new_termios;
 	char			*line;
 	size_t			len;
+	size_t			courser_pos;
 	int				c;
+	int				arrow_key;
 	char			*temp;
 
 	line = NULL;
 	len = 0;
+	courser_pos = 0;
+	line = malloc(sizeof(char));
+	if (line == NULL)
+	{
+		perror("malloc");
+		return (NULL);
+	}
+	line[0] = '\0';
 	tcgetattr(STDIN_FILENO, &old_termios);
 	new_termios = old_termios;
 	new_termios.c_lflag &= ~(ICANON | ECHO);
@@ -38,15 +50,42 @@ char	*ft_fgets(void)
 	{
 		if (c == 127)
 		{
-			if (len > 0)
+			if (len > 0 && courser_pos > 0)
 			{
-				write(1, "\b \b", 3);
+				printf("\b \b");
+				courser_pos--;
 				len--;
+				line[len] = '\0';
 			}
 		}
 		else if (c == '\b')
 		{
-			write(1, "\b", 1);
+			if (len > 0 && courser_pos > 0)
+			{
+				putchar('\b');
+				courser_pos--;
+				len--;
+			}
+		}
+		else if (c == ESCAPE_SEQUENCE[0] && getchar() == '[')
+		{
+			arrow_key = getchar();
+			if (arrow_key == 'C')
+			{
+				if (courser_pos <= len + 1)
+				{
+					putchar(line[courser_pos]);
+					courser_pos++;
+				}
+			}
+			else if (arrow_key == 'D')
+			{
+				if (courser_pos >= 0)
+				{
+					putchar('\b');
+					courser_pos--;
+				}
+			}
 		}
 		else
 		{
@@ -61,10 +100,12 @@ char	*ft_fgets(void)
 			line = temp;
 			line[len++] = (char)c;
 			line[len] = '\0';
-			write(1, &c, 1);
+			courser_pos++;
+			putchar(c);
 		}
 		c = getchar();
 	}
+	printf("\nlen: %ld courser: %ld\n", len, courser_pos);
 	printf("\n");
 	tcsetattr(STDIN_FILENO, TCSANOW, &old_termios);
 	return (line);
