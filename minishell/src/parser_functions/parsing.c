@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:47:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/04/28 11:35:04 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/04/30 11:21:06 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@ void	initiliaze_command_tree(t_tree *tree, int i)
 }
 
 //	function to parse the argument into parsing struct for cmd_exec funciton
-t_tree	*parse_command(char *command_str)
+t_tree	*parse_command(char *command_str, char **envp)
 {
 	t_tree	*tree;
 
 	tree = NULL;
 	if (command_str)
 	{
-		if (check_for_quotes(command_str) == EXIT_FAILURE)
+		if (check_for_quotes_and_slash(command_str) == EXIT_FAILURE)
 		{
 			return (NULL);
 		}
-		if (build_command_tree(&tree, command_str) == EXIT_FAILURE)
+		if (build_command_tree(&tree, command_str, envp) == EXIT_FAILURE)
 		{
 			return (NULL);
 		}

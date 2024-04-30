@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:41:13 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/04/28 17:00:49 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/04/30 14:08:45 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@
 /* -------------------------------- LIBRARIES ------------------------------- */
 
 //	public libraries
-# include <readline/readline.h>
-# include <readline/history.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -55,6 +53,8 @@
 # include <signal.h>
 # include <errno.h>
 # include <termios.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 //	private	libraries
 # include "libft/libft.h"
 
@@ -111,7 +111,7 @@ int		pipes_error(char *errorstr, t_tree *tree, char **array);
 //--------------------------- execution functions ------------------------------
 
 //	execute.c
-void	execute_command(t_tree *tree);
+void    execute_command(t_tree *tree, char **envp);
 
 //----------------------------- helper functions -------------------------------
 
@@ -126,14 +126,14 @@ void	ft_treeadd_back(t_tree **lst, t_tree *new, t_tree **parent);
 //int		check_for_flag(t_tree *tree, char *cmd_str, int start);
 //	parsing.c
 void	initiliaze_command_tree(t_tree *tree, int i);
-t_tree	*parse_command(char *command);
+t_tree	*parse_command(char *command, char **envp);
 //	process_arg_str.c
 char	*ft_fgets(void);
 int		adapt_and_count_arguments(t_tree *tree, char *command_str);
-int		split_command(t_tree *tree, char *command_str);
-int		build_command_tree(t_tree **tree, char *command_str);
+int		split_command(t_tree *tree, char *command_str, char **envp);
+int		build_command_tree(t_tree **tree, char *command_str, char **envp);
 //	quote_check.c
-int		check_for_quotes(char *command_str);
+int		check_for_quotes_and_slash(char *command_str);
 int		check_for_open_quotes(char letter, int *s_quote, int *d_quote);
 int		det_and_rem_quotes_first_word(char *command_str);
 //	split_pipes.c
@@ -145,7 +145,7 @@ char	**split_pipes(char const *s, char c, int *pipe_num);
 //---------------------------- signal functions -------------------------------
 
 //	signal.c
-void	handle_signal(int signo);
+void	signal_handler(int sig);
 
 //---------------------------- debugging functions ----------------------------
 

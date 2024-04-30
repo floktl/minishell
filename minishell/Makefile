@@ -6,7 +6,7 @@
 #    By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 10:25:10 by fkeitel           #+#    #+#              #
-#    Updated: 2024/04/28 17:07:39 by fkeitel          ###   ########.fr        #
+#    Updated: 2024/04/30 10:22:00 by fkeitel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,12 +36,12 @@ all: $(OBJ_DIR) $(NAME) $(HEADER)
 
 # Rule to build the project using MLX library
 $(NAME): $(OBJS) $(LIBFTTARGET)
-	@$(CC) $(CFLAGS) $(OBJS) -o $@ $(LIBFTTARGET) $(LDLIBS)
+	@$(CC) $(CFLAGS)  $(OBJS) -o $@ $(LIBFTTARGET) $(LDLIBS)
 
 $(LIBFTTARGET):
 	@$(MAKE) -C $(LIBFT)
 
-# Rule to compile source files into object files in a seperate obj folder
+# Rule to compile source files into object files in a separate obj folder
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR) $(HEADER)
 	@mkdir -p $(dir $@)
 	@$(info Compiling $<)
