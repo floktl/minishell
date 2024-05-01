@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:41:13 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/04/30 14:08:45 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/05/01 10:39:22 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,8 @@ int		build_command_tree(t_tree **tree, char *command_str, char **envp);
 int		check_for_quotes_and_slash(char *command_str);
 int		check_for_open_quotes(char letter, int *s_quote, int *d_quote);
 int		det_and_rem_quotes_first_word(char *command_str);
+//	replace_variable.c
+int		export_dollar_sign(char **args, char **envp);
 //	split_pipes.c
 void	count_pipes(char const *s, char pipe, int *pipe_num);
 int		quote_check(const char *s, int *pipe_len, char pipe, int *i);

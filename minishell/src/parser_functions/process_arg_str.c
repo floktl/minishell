@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:47:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/04/30 14:01:07 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/05/01 10:38:40 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,30 +220,6 @@ int	adapt_and_count_arguments(t_tree *tree, char *command_str)
 //    return 0;
 //}
 
-////	function to convert the argument into the string
-//int	export_dollar_sign(t_tree *tree, char **envp)
-//{
-//	char	*variable;
-//	int		i;
-//	int		j;
-
-//	i = 0;
-//	j = 0;
-//	while (tree->arguments[i])
-//	{
-//		j = 0;
-//		if (tree->arguments[i][j] == '$')
-//		{
-//			if (search_for_variable_in_env(variable, envp))
-//			{
-//			}
-//			i++;
-//		}
-//		i++;
-//	}
-//	return (EXIT_SUCCESS);
-//}
-
 //	function to split the commands into the components
 int	split_command(t_tree *tree, char *command_str, char **envp)
 {
@@ -258,15 +234,20 @@ int	split_command(t_tree *tree, char *command_str, char **envp)
 		printf("Error in arguments\n");
 		return (EXIT_FAILURE);
 	}
-	//if (export_dollar_sign(command_str, envp) == EXIT_FAILURE)
-	//{
-	//	printf("Error in arguments\n");
-	//	return (EXIT_FAILURE);
-	//}
+	if (export_dollar_sign(tree->arguments, envp) == EXIT_FAILURE)
+	{
+		printf("Error in Variables\n");
+		return (EXIT_FAILURE);
+	}
 	if (is_substr_first_word(command_str, "echo"))
 	{
 		tree->type = EXEC;
 		tree->command = ECHO;
+	}
+	if (is_substr_first_word(command_str, "pwd"))
+	{
+		tree->type = EXEC;
+		tree->command = PWD;
 	}
 	tree->cmd_brch = ft_strdup(command_str);
 	if (!tree->cmd_brch)

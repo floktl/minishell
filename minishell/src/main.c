@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 11:03:04 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/04/30 14:11:56 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/05/01 10:47:07 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	main(int argc, char **argv, char **envp)
 	char	*command;
 	//char	**new_envp;
 	t_tree	*parse_tree;
+	int debug_mode = 0;
 
 	command = NULL;
 	(void)argc;
@@ -38,12 +39,19 @@ int	main(int argc, char **argv, char **envp)
 			free(command);
 			continue ;
 		}
+		if (strcmp(command, "deb") == 0)
+		{
+			debug_mode = !debug_mode;
+			free(command);
+			continue ;
+		}
 		add_history(command);
 		parse_tree = parse_command(command, envp);
 		free(command);
 		if (parse_tree == NULL)
 			continue ;
-		//print_parse_tree(parse_tree);
+		if (debug_mode)
+			print_parse_tree(parse_tree);
 		execute_command(parse_tree, envp);
 		free_tree(parse_tree);
 	}
