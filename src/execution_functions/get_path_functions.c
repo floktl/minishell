@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path_functions.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stopp <stopp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 10:57:40 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/02 14:39:14 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/10 18:25:15 by stopp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ void	absolute_path(t_tree *tmp, char **env_array)
 
 	dir = opendir((tmp->args[0]));
 	if (dir)
-		print_exit("is a directory", tmp->args[0], 126, dir);
+	{
+		closedir(dir);
+		print_exit("is a directory", tmp->args[0], 126, NULL);
+	}
 	else if (access(tmp->args[0], F_OK) == 0)
 	{
 		if (access(tmp->args[0], X_OK) == 0)

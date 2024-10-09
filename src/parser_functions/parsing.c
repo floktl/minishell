@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stopp <stopp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:47:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/02 16:33:58 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/10 15:51:54 by stopp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	init_tree(t_tree *tree, char **pipes, int ex_st, int i)
 	tree->command = 0;
 	tree->here_doc = NULL;
 	tree->args = NULL;
-	tree->cmd_brch = NULL;
 	tree->child_pipe = NULL;
 	tree->pipes_num = 0;
 	tree->output = 0;
@@ -27,7 +26,6 @@ int	init_tree(t_tree *tree, char **pipes, int ex_st, int i)
 	tree->in_fd = 0;
 	tree->out_fd = 0;
 	tree->pipes_num = i + 1;
-	tree->arrow_quote = NULL;
 	if (tree->parent_pipe)
 	{
 		tree->exit_status = ex_st;
@@ -35,10 +33,11 @@ int	init_tree(t_tree *tree, char **pipes, int ex_st, int i)
 		tree->stdinput = tree->parent_pipe->stdinput;
 		tree->stdoutput = tree->parent_pipe->stdoutput;
 	}
+	else
+		tree->parent_pipe = NULL;
 	if (split_command(tree, &pipes[i], ex_st) == -1)
 		return (pipes_error("error split_command", NULL, pipes));
 	tree->args = handle_redirects(tree->args, tree);
-	tree->parent_pipe = NULL;
 	return (1);
 }
 

@@ -3,20 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   redirec_helper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stopp <stopp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 21:56:38 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/02 20:02:35 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/10 18:49:07 by stopp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+int	skip_rest(char *command_str, int s_quote, int d_quote, int i)
+{
+	if (s_quote)
+	{
+		while (command_str[i] && command_str[i] != '\'')
+			i++;
+		if (command_str[i] && command_str[i] != '\'')
+			return (EXIT_FAILURE);
+		while (command_str[i] && command_str[i] != ' ')
+			i++;
+	}
+	if (d_quote)
+	{
+		while (command_str[i] && command_str[i] != '\"')
+			i++;
+		if (command_str[i] && command_str[i] != '\"')
+			return (EXIT_FAILURE);
+		while (command_str[i] && command_str[i] != ' ')
+			i++;
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	check_cat(char *str)
 {
 	int	i;
 
-	i = 3;
+	if (ft_strncmp(str, "cat", 3) == 0)
+		i = 3;
+	else
+		i = 4;
 	while (str[i])
 	{
 		if (str[i] != ' ' || str[i] != '\t')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stopp <stopp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:41:13 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/02 20:36:15 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/10 19:15:38 by stopp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,12 @@
 
 //	public libraries
 # include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <string.h>
-# include <sys/types.h>
-# include <sys/wait.h>
 # include <signal.h>
-# include <errno.h>
-# include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 //	private	libraries
 # include "libft/libft.h"
 
@@ -105,6 +99,7 @@ typedef char	*(*t_cmd_func)(char *cmd_str, t_tree *tree);
 //	builtin_handler.c
 void	update_exit(t_tree *tree, int exec_exit);
 int		exit_handler(t_tree *tree);
+void	chk_exarg(t_tree *tree, char **args);
 void	execute_builtin(t_tree *tree, t_env **env_lst);
 pid_t	exec_pipe(t_tree *tree, t_env **env_lst, int *exec_exit);
 pid_t	handle_builtins(t_tree *tree, t_env **env_lst, int *exec_exit);
@@ -123,16 +118,18 @@ int		export_err(char *name, t_tree *tree);
 int		name_check(char *tmp, t_tree *tree);
 void	export(t_tree *tree, char *new_env);
 void	export_env(t_tree *tree);
+void	export_loop(t_tree *tree);
 //	pwd.c
 void	ft_pwd(t_tree *tree);
 //	unset.c
 void	ft_unset(t_tree *tree, char	*env);
+void	unset_loop(t_tree *tree);
 
 //----------------------------- clean functions --------------------------------
 
 //	clean.c
 void	free_env_list(t_env **env_list);
-void	free_tree(t_tree *parse_tree);
+void	free_tree(t_tree **parse_tree);
 void	ft_free(char **split, int words);
 void	free_parent_tree(t_tree **parse_tree);
 
@@ -140,7 +137,7 @@ void	free_parent_tree(t_tree **parse_tree);
 
 //	error.c
 int		pipes_error(char *errorstr, t_tree *tree, char **array);
-int		print_str_return_exit(char *str, int exit_code, t_tree *tree);
+void	print_str_return_exit(char *str, int exit_code, t_tree *tree);
 void	print_exit(char *message, char *argument, int errorcode, void *to_free);
 
 //--------------------------- execution functions ------------------------------
@@ -196,6 +193,7 @@ int		check_for_open_quotes(char letter, int *s_quote, int *d_quote);
 int		det_and_rem_quotes_first_word(char *command_str);
 int		remove_quotes(char **args, int i);
 //	redirec_helper.c
+int		skip_rest(char *command_str, int s_quote, int d_quote, int i);
 int		check_cat(char *str);
 char	**cpy_args(char **new, char ***args);
 int		update_args(char ***args);
@@ -241,6 +239,11 @@ t_env	*init_node(char *envp);
 void	lstadd_back_env(t_env **lst, t_env *new);
 t_env	**init_env_list(char **envp);
 void	print_list(t_env *env_list);
+//	util.c
+void	file_error(char *str, char *error, t_tree *tree);
+int		check_dir_out(char *str);
+int		if_path(char *outfile, t_tree *tree);
+int		exit_handler(t_tree *tree);
 
 //---------------------------- debugging functions ----------------------------
 void	print_parse_tree(const t_tree *tree);
