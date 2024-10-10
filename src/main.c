@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stopp <stopp@student.42.fr>                +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 11:03:04 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/10 18:53:25 by stopp            ###   ########.fr       */
+/*   Updated: 2024/10/10 15:29:31 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	prompt_loop(t_tree	**parse_tree)
 {
 	char	*command;
 
-	rl_catch_signals = 0;
+	//rl_catch_signals = 0;
 	command = NULL;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_handler);

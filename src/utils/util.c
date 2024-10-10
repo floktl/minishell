@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stopp <stopp@student.42.fr>                +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:33:14 by stopp             #+#    #+#             */
-/*   Updated: 2024/06/10 18:54:28 by stopp            ###   ########.fr       */
+/*   Updated: 2024/10/10 15:32:03 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	check_dir_out(char *str)
 
 	dir = opendir(str);
 	if (!dir)
-		return (free(dir), 0);
+		return (0);
 	else
 	{
 		closedir(dir);
@@ -39,10 +39,8 @@ int	if_path(char *outfile, t_tree *tree)
 {
 	char	*tmp;
 	int		i;
-	int		j;
 
 	i = ft_strlen(outfile) - 1;
-	j = 0;
 	while (outfile[i] != '/')
 		i--;
 	tmp = malloc(i + 1);
@@ -60,9 +58,6 @@ int	if_path(char *outfile, t_tree *tree)
 
 int	exit_handler(t_tree *tree)
 {
-	int	i;
-
-	i = 0;
 	if (tree->pipes_num == 1)
 		ft_printf("exit\n");
 	if (tree->args[1])
